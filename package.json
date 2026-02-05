@@ -1,0 +1,21 @@
+{
+  "name": "reactive-js",
+  "version": "0.0.1",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": "24"
+  },
+  "scripts": {
+    "test": "",
+    "dev": "tsc --watch && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}
