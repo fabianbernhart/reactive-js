@@ -1,5 +1,12 @@
 import { describe, test, expect, vi } from "vitest";
-import { computed, signal, watch } from "./index.js";
+import {
+  computed,
+  createEffect,
+  createSignal,
+  reactive,
+  signal,
+  watch,
+} from "./index.js";
 
 describe("ReactiveUI - Engine", () => {
   describe("test `signal`", () => {
@@ -31,21 +38,43 @@ describe("ReactiveUI - Engine", () => {
     });
   });
 
-  describe("test watch", () => {
-    test("watching updates on proxy update", () => {
-      const logger = {
-        log: vi.fn(),
-      };
-
-      const counter = signal({ value: "Hello" });
-
-      const proxy = watch(counter, () => {
-        logger.log("watch that i did it!");
+  describe("test reactive", () => {
+    test("test sharede state between two reactive object", () => {
+      const data = reactive({
+        health: 100,
       });
 
-      proxy.value = { value: "Bye" };
+      const test = reactive({
+        data,
+      });
 
-      expect(logger.log).toBeCalledWith("watch that i did it!");
+      data.health--;
+      data.health--;
+
+      test.data.health--;
+
+      expect(data.health).toEqual(test.data.health);
+      expect(test.data.health).toEqual(97);
+    });
+  });
+
+  describe("Create signals", () => {
+    test("Create and read a Signal", () => {
+      const [value] = createSignal(5);
+      expect(value()).toBe(5);
+    });
+  });
+  describe("Create effect", () => {
+    test("Create effect and call signal", () => {
+      let effectCalled = false;
+      const [value] = createSignal(5);
+
+      createEffect(() => {
+        value();
+        effectCalled = true;
+      });
+
+      expect(effectCalled).true;
     });
   });
 });
