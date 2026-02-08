@@ -3,16 +3,33 @@
 import { createEffect, createSignal } from "./lib/reactivity/index.js";
 
 function main() {
-  const [count, setCount] = createSignal(2);
-  const [multiplier, setMultiplier] = createSignal(2);
+  const [counter, setCount] = createSignal(1);
+  const [multiplier, setMultiplier] = createSignal(1);
 
   createEffect(() => {
-    console.log("get multi", count() * multiplier());
+    document.getElementById("app")!.textContent = String(
+      counter() * multiplier(),
+    );
   });
 
-  setCount(4);
+  const incrementButton = document.getElementById("btn-increment");
+  const decreaseButton = document.getElementById("btn-decrease");
+  const multi = document.getElementById("multiplier");
 
-  setMultiplier(5);
+  incrementButton?.addEventListener("click", () => {
+    setCount(counter() + 1);
+  });
+
+  /** TODO: improve typing */
+  multi?.addEventListener("input", (e: any) => {
+    setMultiplier(Number(e.target.value));
+  });
+
+  decreaseButton?.addEventListener("click", () => {
+    if (counter() === 0) return;
+
+    setCount(counter() - 1);
+  });
 }
 
 main();
