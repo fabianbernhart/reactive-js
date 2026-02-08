@@ -4,7 +4,6 @@ Features:
 
 - signal-based reactivity
 - dependency tracking
-- effect scheduler
 - DOM bindings
 
 Goal:
